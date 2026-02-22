@@ -6,7 +6,8 @@ const TRAINING_PROGRAMS = [
     id: '01',
     title: 'KICKBOKSEN',
     description: 'De basis. Harde combinaties, strakke verdediging en traptechnieken. We trainen op Dutch Style. Geen franjes, we werken hard aan je techniek en conditie.',
-    videoSrc: '/kickboxing.mp4#t=2.5'
+    videoSrc: '/kickboxing.mp4#t=2.5',
+    mobileVideoSrc: '/hero-desktop.mp4#t=8'
   },
   {
     id: '02',
@@ -66,13 +67,23 @@ export const Training: React.FC = () => {
                 key={program.id}
                 className="group relative h-[450px] md:h-[600px] bg-black-elevated overflow-hidden border border-white/5 hover:border-red-primary/30 transition-colors"
               >
-                {/* Background Video: visible on mobile at low opacity, hover-reveal on desktop */}
+                {/* Background Video: mobile version (uses mobileVideoSrc if available) */}
                 <video
                   autoPlay
                   muted
                   loop
                   playsInline
-                  className="absolute inset-0 w-full h-full object-cover opacity-40 md:opacity-0 md:group-hover:opacity-60 transition-opacity duration-700 filter grayscale md:group-hover:grayscale-0 scale-105 md:group-hover:scale-100 ease-out"
+                  className={`absolute inset-0 w-full h-full object-cover opacity-40 transition-opacity duration-700 filter grayscale scale-105 ease-out ${program.mobileVideoSrc ? 'md:hidden' : 'md:opacity-0 md:group-hover:opacity-60 md:group-hover:grayscale-0 md:group-hover:scale-100'}`}
+                >
+                  <source src={program.mobileVideoSrc || program.videoSrc} type="video/mp4" />
+                </video>
+                {/* Background Video: desktop version (hover-reveal) */}
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-cover opacity-0 md:group-hover:opacity-60 transition-opacity duration-700 filter grayscale md:group-hover:grayscale-0 scale-105 md:group-hover:scale-100 ease-out hidden md:block"
                 >
                   <source src={program.videoSrc} type="video/mp4" />
                 </video>
