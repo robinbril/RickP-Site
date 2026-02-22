@@ -20,14 +20,17 @@ export const Header: React.FC = () => {
     >
       <div className="container flex items-center justify-between">
         
-        {/* LOGO: Left side stacked "RICK PEPER" */}
+        {/* LOGO: Left side with RP monogram + stacked text */}
         <a 
           href="#" 
-          className="flex flex-col tracking-tight text-white group cursor-pointer relative z-10 w-fit transition-all duration-500"
+          className="flex items-center gap-3 text-white group cursor-pointer relative z-10 w-fit transition-all duration-500"
           style={{ transform: scrolled ? 'scale(0.85)' : 'scale(1)', transformOrigin: 'left center' }}
         >
-          <span className="font-display text-2xl md:text-3xl uppercase transition-transform duration-300 group-hover:-translate-y-0.5">RICK</span>
-          <span className="font-display text-2xl md:text-3xl uppercase transition-transform duration-300 group-hover:translate-y-0.5">PEPER</span>
+          <img src="/logo.png" alt="RP" className="w-10 h-10 object-contain brightness-110 group-hover:scale-110 transition-transform duration-500" />
+          <div className="flex flex-col tracking-tight leading-none">
+            <span className="font-display text-2xl md:text-3xl uppercase transition-transform duration-300 group-hover:-translate-y-0.5">RICK</span>
+            <span className="font-display text-2xl md:text-3xl uppercase transition-transform duration-300 group-hover:translate-y-0.5">PEPER</span>
+          </div>
         </a>
 
         {/* CTAs: Right side */}
