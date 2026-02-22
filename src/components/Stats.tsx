@@ -32,7 +32,7 @@ export const Stats: React.FC = () => {
               <div className="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black via-black/80 to-transparent">
                 <div className="flex items-center gap-4 text-white">
                   <Trophy size={24} className="text-red-primary" />
-                  <span className="font-display tracking-widest text-xl uppercase">FIGHT RECORD & STATS</span>
+                  <span className="font-display tracking-widest text-xl uppercase">PRO KICKBOKSER</span>
                 </div>
               </div>
             </div>
