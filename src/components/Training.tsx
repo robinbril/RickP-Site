@@ -6,14 +6,14 @@ const TRAINING_PROGRAMS = [
     id: '01',
     title: 'KICKBOKSEN',
     description: 'De basis. Harde combinaties, strakke verdediging en traptechnieken. We trainen op Dutch Style. Geen franjes, we werken hard aan je techniek en conditie.',
-    videoSrc: '/Muay_Thai_Spinning_Kick_Video.mp4',
-    mobileVideoSrc: '/Muay_Thai_Spinning_Kick_Video.mp4'
+    videoSrc: '/hero-desktop.mp4#t=8',
+    mobileVideoSrc: '/hero-desktop.mp4#t=8'
   },
   {
     id: '02',
     title: 'MUAY THAI',
     description: 'De klassieke stijl. Clinchwerk, ellebogen en knieën. Het rauwe Thaise boksen. Fysiek zwaar en effectief. Verwacht blauwe plekken.',
-    videoSrc: '/Muay_Thai_Spinning_Kick_Video.mp4'
+    videoSrc: '/Video_Generatie_En_Variaties.mp4'
   },
   {
     id: '03',

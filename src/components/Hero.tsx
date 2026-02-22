@@ -24,7 +24,7 @@ export const Hero: React.FC = () => {
           <source src="/hero-desktop.mp4#t=8" type="video/mp4" />
         </video>
         
-        {/* Mobile Video (< 768px, 9:16 aspect) */}
+        {/* Mobile Video (< 768px) */}
         <video
           autoPlay
           muted
@@ -33,8 +33,9 @@ export const Hero: React.FC = () => {
           preload="metadata"
           className="block md:hidden w-full h-full object-cover"
           poster="/images/hero-poster.png"
+          ref={(el) => { if (el) el.playbackRate = 1.1; }}
         >
-          <source src="/hero-desktop.mp4#t=8" type="video/mp4" />
+          <source src="/Video_Generatie_En_Variaties.mp4" type="video/mp4" />
         </video>
         
         {/* Premium Dark Gradient Overlay matching REVIVE_WOMAN */}
