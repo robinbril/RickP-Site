@@ -39,31 +39,17 @@ export const Stats: React.FC = () => {
 
             {/* Stats Side */}
             <div className="flex flex-col justify-center">
-              <div className="grid grid-cols-2 gap-8 md:gap-12 mb-16">
-                <div>
-                  <h3 className="text-white-muted text-xs md:text-sm tracking-[0.2em] font-bold uppercase mb-4 flex items-center gap-2">
-                    <span className="w-4 h-[1px] bg-red-primary" /> PRO RECORD
-                  </h3>
-                  <div className="font-display text-6xl md:text-8xl lg:text-[120px] text-white leading-none tracking-tight">
-                    {isVisible ? <CountUp end={12} duration={2.5} /> : '0'}
-                    <span className="text-red-primary ml-2">-</span>
-                    {isVisible ? <CountUp end={2} duration={2.5} /> : '0'}
-                  </div>
-                  <div className="text-red-primary font-bold tracking-[0.2em] mt-2 text-sm md:text-base">
-                    {isVisible ? <CountUp end={8} duration={3} /> : '0'} K.O. OVERWINNINGEN
-                  </div>
-                </div>
-
+              <div className="mb-16">
                 <div>
                   <h3 className="text-white-muted text-xs md:text-sm tracking-[0.2em] font-bold uppercase mb-4 flex items-center gap-2">
                     <span className="w-4 h-[1px] bg-red-primary" /> GEWICHTSKLASSE
                   </h3>
                   <div className="font-display text-6xl md:text-8xl lg:text-[120px] text-white leading-none tracking-tight">
-                    {isVisible ? <CountUp end={77} duration={2.5} /> : '0'}
+                    {isVisible ? <CountUp end={70} duration={2.5} /> : '0'}
                     <span className="text-xl md:text-3xl lg:text-5xl text-white-muted font-body tracking-wider ml-1">KG</span>
                   </div>
                   <div className="text-white-muted font-bold tracking-[0.2em] mt-2 text-sm md:text-base uppercase">
-                    Welterweight Divisie
+                    Lichtgewicht Divisie
                   </div>
                 </div>
               </div>
