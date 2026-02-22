@@ -6,8 +6,8 @@ const TRAINING_PROGRAMS = [
     id: '01',
     title: 'KICKBOKSEN',
     description: 'De basis. Harde combinaties, strakke verdediging en traptechnieken. We trainen op Dutch Style. Geen franjes, we werken hard aan je techniek en conditie.',
-    videoSrc: '/kickboxing.mp4#t=2.5',
-    mobileVideoSrc: '/hero-desktop.mp4#t=8'
+    videoSrc: '/Muay_Thai_Spinning_Kick_Video.mp4',
+    mobileVideoSrc: '/Muay_Thai_Spinning_Kick_Video.mp4'
   },
   {
     id: '02',

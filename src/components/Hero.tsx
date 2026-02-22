@@ -34,7 +34,7 @@ export const Hero: React.FC = () => {
           className="block md:hidden w-full h-full object-cover"
           poster="/images/hero-poster.png"
         >
-          <source src="/Muay_Thai_Spinning_Kick_Video.mp4" type="video/mp4" />
+          <source src="/hero-desktop.mp4#t=8" type="video/mp4" />
         </video>
         
         {/* Premium Dark Gradient Overlay matching REVIVE_WOMAN */}
