@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rick Peper — Professional Kickboxer</title>
+<meta name="description" content="Rick Peper. 23. Professional Kickboxer. Team Atlas Leiden.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060606;--bg2:#0d0d0f;--bg3:#151517;--bg4:#1c1c1f;
+  --red:#c62828;--red-lit:#ef5350;--red-deep:#8b0000;--red-glow:rgba(198,40,40,.10);
+  --cream:#f0ece6;--cream-dim:#c8c4be;--muted:#5a5a5a;--muted-lt:#888;
+  --display:'Anton',sans-serif;--cond:'Barlow Condensed',sans-serif;
+  --mono:'Space Mono',monospace;--body:'Barlow',sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);--eo:cubic-bezier(.16,1,.3,1);
+  --pad:clamp(20px,4vw,48px);
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--body);font-weight:400;background:var(--bg);color:var(--cream);overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:default}
+a{color:inherit;text-decoration:none}
+
+.cur{width:14px;height:14px;border:1.5px solid var(--cream);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:10000;transition:width .3s var(--ease),height .3s var(--ease),border-color .3s var(--ease),transform .08s linear;transform:translate(-50%,-50%);mix-blend-mode:difference}
+.cur.h{width:52px;height:52px;border-color:var(--red-lit)}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.028;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+
+/* Loader */
+.ld{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .8s var(--ease),visibility .8s}
+.ld.done{opacity:0;visibility:hidden;pointer-events:none}
+.ld-t{font-family:var(--display);font-size:clamp(28px,7vw,64px);text-transform:uppercase;letter-spacing:.06em;overflow:hidden}
+.ld-t span{display:inline-block;transform:translateY(110%);animation:su .5s var(--eo) forwards}
+.ld-b{width:120px;height:1px;background:var(--bg3);overflow:hidden;margin-top:8px}
+.ld-b span{display:block;width:0;height:100%;background:var(--red);animation:fl 1.2s .3s var(--ease) forwards}
+@keyframes su{to{transform:translateY(0)}}
+@keyframes fl{to{width:100%}}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:20px var(--pad);display:flex;justify-content:space-between;align-items:center;mix-blend-mode:difference;transition:padding .4s var(--ease)}
+nav.s{padding:14px var(--pad)}
+.nl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+.nc{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:32px;list-style:none}
+.nc a{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.5;transition:opacity .3s var(--ease)}
+.nc a:hover{opacity:1}
+.nr{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.5}
+.ham{display:none;width:28px;height:18px;flex-direction:column;justify-content:space-between;cursor:pointer;z-index:201}
+.ham span{display:block;width:100%;height:1.5px;background:var(--cream);transition:transform .4s var(--ease),opacity .3s;transform-origin:center}
+.ham.o span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.ham.o span:nth-child(2){opacity:0}
+.ham.o span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px)}
+.mo{position:fixed;inset:0;z-index:199;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad);opacity:0;pointer-events:none;transition:opacity .5s var(--ease)}
+.mo.o{opacity:1;pointer-events:all}
+.mo a{font-family:var(--display);font-size:clamp(36px,9vw,64px);text-transform:uppercase;line-height:1.2;display:block;opacity:0;transform:translateY(24px);transition:opacity .4s var(--ease),transform .4s var(--ease),color .3s}
+.mo.o a{opacity:1;transform:translateY(0)}
+.mo a:hover{color:var(--red-lit)}
+
+/* Hero */
+.hero{position:relative;height:100vh;min-height:700px;display:flex;align-items:flex-end;padding:0 var(--pad) clamp(48px,8vh,100px);overflow:hidden}
+.hero-anim{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-anim canvas{width:100%;height:100%;display:block}
+.hero-grad{position:absolute;inset:0;z-index:1;background:
+  radial-gradient(ellipse 80% 70% at 70% 50%,rgba(198,40,40,.05),transparent 50%),
+  radial-gradient(ellipse 50% 60% at 20% 80%,rgba(198,40,40,.03),transparent 50%),
+  linear-gradient(180deg,var(--bg) 0%,transparent 15%,transparent 80%,var(--bg) 100%);
+  pointer-events:none}
+.hero-orb{position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(80px)}
+.hero-orb--1{width:35vw;height:35vw;top:10%;right:-5%;background:rgba(198,40,40,.06);animation:orb1 12s ease-in-out infinite}
+.hero-orb--2{width:25vw;height:25vw;bottom:15%;left:10%;background:rgba(198,40,40,.03);animation:orb2 16s ease-in-out infinite}
+.hero-orb--3{width:20vw;height:20vw;top:50%;left:50%;background:rgba(240,236,230,.015);animation:orb3 10s ease-in-out infinite}
+@keyframes orb1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-5vw,3vw) scale(1.1)}66%{transform:translate(3vw,-4vw) scale(.95)}}
+@keyframes orb2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(6vw,-3vw) scale(1.15)}}
+@keyframes orb3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.3)}}
+.hero-lines{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.05}
+.hero-lines span{position:absolute;width:1px;background:linear-gradient(180deg,transparent,var(--cream),transparent);animation:linedrift linear infinite}
+@keyframes linedrift{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+.hero-pulse{position:absolute;top:50%;left:65%;width:40vw;height:40vw;transform:translate(-50%,-50%);border-radius:50%;z-index:0;background:radial-gradient(circle,rgba(198,40,40,.05),transparent 60%);animation:hp 4s ease-in-out infinite;pointer-events:none}
+@keyframes hp{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5}50%{transform:translate(-50%,-50%) scale(1.2);opacity:1}}
+.hero-mob-vid{display:none}
+.hero-line{position:absolute;top:0;bottom:0;width:1px;z-index:2;background:linear-gradient(180deg,transparent,rgba(240,236,230,.04) 30%,rgba(240,236,230,.04) 70%,transparent)}
+.hero-line:first-of-type{left:var(--pad)}
+.hero-line:last-of-type{right:var(--pad)}
+.hero-c{position:relative;z-index:3;max-width:800px}
+.hero-tag{font-family:var(--mono);font-size:clamp(9px,1vw,11px);letter-spacing:.2em;text-transform:uppercase;color:var(--red-lit);margin-bottom:20px;opacity:0;transform:translateY(12px)}
+.hero-name{font-family:var(--display);font-size:clamp(56px,10vw,150px);line-height:.88;text-transform:uppercase;letter-spacing:.02em;opacity:0;transform:translateY(50px);position:relative}
+.hero-name em{font-style:normal;-webkit-text-stroke:2px var(--cream);color:transparent}
+.hero-name.gl{animation:nameGlow 6s ease-in-out infinite}
+@keyframes nameGlow{0%,100%{text-shadow:none}50%{text-shadow:0 0 40px rgba(198,40,40,.15),0 0 80px rgba(198,40,40,.06)}}
+.hero-bot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:40px;opacity:0;transform:translateY(16px)}
+.hero-meta{display:flex;gap:40px}
+.hero-mi{font-family:var(--mono);font-size:clamp(9px,.9vw,10px);letter-spacing:.1em;text-transform:uppercase;color:var(--muted-lt)}
+.hero-mi strong{display:block;font-family:var(--cond);font-size:clamp(16px,1.4vw,20px);font-weight:700;color:var(--cream);letter-spacing:.02em;margin-top:4px}
+.hero-scr{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.hero-scr span{width:28px;height:1px;background:var(--muted);animation:p 2s ease-in-out infinite}
+@keyframes p{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* Marquee */
+.mq{overflow:hidden;padding:28px 0;border-top:1px solid rgba(240,236,230,.04);border-bottom:1px solid rgba(240,236,230,.04)}
+.mq-t{display:flex;gap:56px;animation:sc 18s linear infinite;width:max-content}
+.mq-t span{font-family:var(--display);font-size:clamp(12px,1.4vw,16px);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.mq-t .dot{color:var(--red)}
+@keyframes sc{to{transform:translateX(-50%)}}
+
+/* Shared */
+.sec{position:relative;padding:clamp(80px,10vw,140px) var(--pad)}
+.sl{font-family:var(--mono);font-size:clamp(9px,.8vw,10px);font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red-lit);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sl::before{content:'';width:20px;height:1px;background:var(--red)}
+.sh{font-family:var(--display);font-size:clamp(32px,5.5vw,72px);text-transform:uppercase;line-height:.9;letter-spacing:-.02em;margin-bottom:40px}
+
+/* About */
+.about{background:var(--bg2)}
+.about-g{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,100px);align-items:start}
+.about-txt{font-size:clamp(14px,1.1vw,16px);line-height:1.85;color:var(--muted-lt);max-width:500px}
+.about-txt p+p{margin-top:16px}
+.about-img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;filter:grayscale(.2) contrast(1.08);border:1px solid rgba(240,236,230,.06);opacity:.85;transition:opacity .4s var(--ease),filter .4s var(--ease)}
+.about-img:hover{opacity:1;filter:grayscale(0) contrast(1.02)}
+.about-sr{display:flex;gap:40px;margin-top:24px}
+.about-sn{font-family:var(--display);font-size:clamp(40px,4.5vw,64px);line-height:1;color:var(--cream)}
+.about-sl{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.about-q{font-family:var(--cond);font-size:clamp(18px,2vw,24px);font-weight:600;line-height:1.5;color:var(--cream);border-left:2px solid var(--red);padding-left:20px;margin-top:32px}
+
+/* Programs */
+.progs{background:var(--bg)}
+.progs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px}
+.prog{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--bg2);cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(24px,3vw,40px);color:var(--cream)}
+.prog-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.35) grayscale(.2);transition:filter .6s var(--ease),transform .6s var(--ease)}
+.prog:hover .prog-bg{filter:brightness(.5) grayscale(0);transform:scale(1.04)}
+.prog-num{position:absolute;top:clamp(16px,2vw,28px);right:clamp(16px,2vw,28px);font-family:var(--display);font-size:clamp(64px,8vw,120px);line-height:1;color:rgba(240,236,230,.06);pointer-events:none;transition:color .4s var(--ease)}
+.prog:hover .prog-num{color:rgba(198,40,40,.15)}
+.prog-content{position:relative;z-index:1}
+.prog-label{font-family:var(--mono);font-size:clamp(8px,.7vw,10px);letter-spacing:.2em;text-transform:uppercase;color:var(--red-lit);margin-bottom:8px}
+.prog h3{font-family:var(--display);font-size:clamp(24px,3vw,40px);text-transform:uppercase;line-height:.95;letter-spacing:.01em;margin-bottom:16px;color:var(--cream)}
+.prog-desc{font-family:var(--body);font-size:clamp(12px,1vw,14px);color:var(--muted-lt);line-height:1.5;margin-bottom:16px;max-width:280px}
+.prog-arrow{width:48px;height:48px;border-radius:50%;border:1px solid rgba(240,236,230,.2);display:flex;align-items:center;justify-content:center;transition:border-color .3s var(--ease),background .3s var(--ease),transform .3s var(--ease)}
+.prog:hover .prog-arrow{border-color:var(--red);background:rgba(198,40,40,.1);transform:translateX(4px)}
+.prog-arrow svg{width:18px;height:18px;color:var(--cream)}
+
+/* Split */
+.split{display:grid;grid-template-columns:1fr 1fr;min-height:50vh}
+.split-img{position:relative;overflow:hidden;background:var(--bg2)}
+.split-img img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(.15) contrast(1.05)}
+.split-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,6,.1),rgba(6,6,6,.5))}
+.split-c{display:flex;flex-direction:column;justify-content:center;padding:clamp(48px,6vw,100px) clamp(32px,4vw,80px);background:var(--bg);position:relative}
+.split-c::before{content:'';position:absolute;top:50%;left:0;transform:translateY(-50%);width:200px;height:400px;background:radial-gradient(ellipse,var(--red-glow),transparent 70%);pointer-events:none}
+.split-big{font-family:var(--display);font-size:clamp(40px,5vw,72px);text-transform:uppercase;line-height:.9;letter-spacing:.01em;margin-bottom:20px;position:relative}
+.split-big .red{color:var(--red-lit)}
+.split-p{font-size:clamp(14px,1.1vw,16px);line-height:1.85;color:var(--muted-lt);max-width:440px;position:relative}
+
+/* Booking */
+.booking{background:var(--bg2)}
+.book-card{
+  max-width:560px;margin:48px auto 0;
+  background:var(--bg3);border:1px solid rgba(240,236,230,.06);
+  border-radius:16px;overflow:hidden;position:relative;
+}
+.book-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red)}
+.book-head{display:flex;justify-content:space-between;align-items:center;padding:28px 28px 0}
+.book-head h3{font-family:var(--display);font-size:clamp(18px,2.2vw,24px);text-transform:uppercase;letter-spacing:.02em}
+.book-head span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--red-lit)}
+.book-days{padding:20px 28px 28px;display:flex;flex-direction:column;gap:12px}
+.book-day{padding:16px 20px;border:1px solid rgba(240,236,230,.06);border-radius:10px;background:var(--bg2)}
+.book-day-name{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-lt);margin-bottom:10px}
+.book-slots{display:flex;gap:8px;flex-wrap:wrap}
+.book-slot{
+  font-family:var(--cond);font-size:clamp(16px,1.4vw,20px);font-weight:700;
+  padding:8px 18px;background:var(--bg3);border:1px solid rgba(240,236,230,.08);
+  border-radius:8px;color:var(--cream);cursor:pointer;
+  transition:border-color .3s var(--ease),background .3s var(--ease);
+}
+.book-slot:hover{border-color:var(--red);background:rgba(198,40,40,.08)}
+.book-slot.sel{border-color:var(--red);background:rgba(198,40,40,.15)}
+
+.book-cta{padding:0 28px 28px}
+.book-cta .btn{width:100%;justify-content:center;border-radius:12px;padding:20px;font-size:clamp(11px,1vw,13px)}
+
+/* Stats */
+.stats{background:var(--bg);overflow:hidden}
+.stats::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(700px,90vw);height:min(700px,90vw);background:radial-gradient(circle,var(--red-glow),transparent 60%);pointer-events:none}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:56px;position:relative}
+.stats-c{padding:clamp(28px,3.5vw,48px) clamp(16px,2vw,28px);background:var(--bg2);text-align:center;border:1px solid rgba(240,236,230,.03);transition:background .4s var(--ease),border-color .4s var(--ease)}
+.stats-c:hover{background:var(--bg3);border-color:rgba(198,40,40,.2)}
+.stats-v{font-family:var(--display);font-size:clamp(36px,4.5vw,64px);line-height:1;color:var(--cream)}
+.stats-v .a{color:var(--red-lit)}
+.stats-u{font-family:var(--mono);font-size:clamp(8px,.7vw,10px);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+.ev{margin-top:56px;padding:clamp(28px,3vw,40px);background:var(--bg2);border:1px solid rgba(240,236,230,.04);display:flex;justify-content:space-between;align-items:center;gap:24px;position:relative;overflow:hidden}
+.ev::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--red)}
+.ev-badge{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red-lit);border:1px solid rgba(198,40,40,.3);padding:3px 10px}
+.ev h3{font-family:var(--display);font-size:clamp(18px,2vw,28px);text-transform:uppercase;letter-spacing:.02em}
+.ev-m{font-family:var(--mono);font-size:clamp(10px,.8vw,11px);letter-spacing:.08em;color:var(--muted-lt);margin-top:6px;display:flex;gap:20px;flex-wrap:wrap}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:clamp(10px,.8vw,11px);font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:none;padding:18px 32px;position:relative;overflow:hidden;transition:all .4s var(--ease);-webkit-tap-highlight-color:transparent;touch-action:manipulation;min-height:48px;color:var(--cream)}
+.btn-f{background:var(--red);color:var(--cream)}
+.btn-f:hover{background:var(--red-lit);box-shadow:0 0 40px var(--red-glow),0 4px 20px rgba(0,0,0,.4);transform:translateY(-2px)}
+.btn-f:active{transform:translateY(0) scale(.98)}
+.btn-g{background:transparent;color:var(--cream);border:1px solid rgba(240,236,230,.15)}
+.btn-g:hover{border-color:var(--red);color:var(--red-lit);transform:translateY(-2px)}
+.btn-g:active{transform:translateY(0) scale(.98)}
+.btn-ar{transition:transform .3s var(--ease)}
+.btn:hover .btn-ar{transform:translateX(4px)}
+
+/* Contact */
+.contact{background:var(--bg);position:relative}
+.contact::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(800px,100%);height:400px;background:radial-gradient(ellipse,var(--red-glow),transparent 65%);pointer-events:none}
+.contact-center{text-align:center;max-width:600px;margin:0 auto;position:relative}
+.contact-center h3{font-family:var(--display);font-size:clamp(32px,4.5vw,56px);text-transform:uppercase;line-height:.92;margin-bottom:16px}
+.contact-center p{font-size:clamp(14px,1.1vw,16px);line-height:1.75;color:var(--muted-lt);margin-bottom:40px}
+.contact-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.contact-cta{
+  display:flex;align-items:center;gap:14px;
+  padding:22px 36px;border-radius:14px;
+  font-family:var(--mono);font-size:clamp(11px,.9vw,13px);font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  transition:all .4s var(--ease);cursor:pointer;min-height:60px;
+}
+.contact-cta--wa{background:var(--red);color:var(--cream)}
+.contact-cta--wa:hover{background:var(--red-lit);transform:translateY(-3px);box-shadow:0 8px 32px rgba(198,40,40,.25)}
+.contact-cta--ig{background:var(--bg3);color:var(--cream);border:1px solid rgba(240,236,230,.1)}
+.contact-cta--ig:hover{border-color:var(--red);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.contact-cta svg{width:22px;height:22px;flex-shrink:0}
+.contact-info{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.contact-info a{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:clamp(10px,.8vw,11px);letter-spacing:.06em;color:var(--muted-lt);transition:color .3s var(--ease)}
+.contact-info a:hover{color:var(--red-lit)}
+.contact-info svg{width:15px;height:15px;flex-shrink:0;opacity:.5}
+
+/* Footer */
+footer{padding:32px var(--pad);background:var(--bg);border-top:1px solid rgba(240,236,230,.04);display:flex;justify-content:space-between;align-items:center}
+.fl{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.fs{display:flex;gap:20px}
+.fs a{color:var(--muted);transition:color .3s var(--ease)}
+.fs a:hover{color:var(--red-lit)}
+.fs svg{width:16px;height:16px}
+
+/* Mobile CTA */
+.mcta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:90;padding:10px 16px calc(env(safe-area-inset-bottom, 8px) + 8px);background:linear-gradient(transparent,var(--bg) 30%)}
+.mcta .btn{width:100%;justify-content:center;border-radius:12px}
+
+/* Reveal */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .6s var(--eo),transform .6s var(--eo)}
+.rv.v{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* Responsive */
+@media(max-width:1024px){
+  .about-g{grid-template-columns:1fr}
+  .split{grid-template-columns:1fr}.split-img{min-height:50vh}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .progs-grid{grid-template-columns:1fr 1fr}
+  .contact-g{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  nav{padding:14px var(--pad)}
+  .nc,.nr{display:none}.ham{display:flex}
+  .hero{min-height:100svh;padding:0 var(--pad) 40px}
+  .hero-name{font-size:clamp(48px,12vw,80px)}
+  .hero-meta{gap:24px;flex-wrap:wrap}
+  .hero-bot{flex-direction:column;gap:24px;align-items:flex-start}
+  .sec{padding:clamp(60px,8vw,100px) var(--pad)}
+  .mq-t{gap:32px}
+  .stats-row{grid-template-columns:1fr 1fr;gap:1px}
+  .ev{flex-direction:column;align-items:flex-start}
+  .fr{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:12px;text-align:center;padding:24px var(--pad)}
+  .mcta{display:block}body{padding-bottom:68px}
+  .cur{display:none}.mo{padding:0 var(--pad)}
+  .progs-grid{grid-template-columns:1fr}.prog{aspect-ratio:4/5}
+  .split-img{min-height:60vw}
+  .book-card{margin:32px 0 0}
+  .hero-orb,.hero-lines,.hero-anim canvas{display:none}
+  .hero-mob-vid{
+    display:block;position:absolute;inset:0;z-index:0;overflow:hidden;
+  }
+  .hero-mob-vid video{
+    width:100%;height:100%;object-fit:cover;object-position:center top;
+  }
+  .hero-mob-vid::after{
+    content:'';position:absolute;inset:0;z-index:1;
+    background:linear-gradient(180deg,rgba(6,6,6,.45) 0%,rgba(6,6,6,.6) 40%,rgba(6,6,6,.85) 100%);
+  }
+}
+@media(max-width:480px){
+  .stats-v{font-size:32px}.about-sn{font-size:40px}
+}
+</style>
+</head>
+<body>
+
+<div class="ld" id="ld"><div class="ld-t" id="ldt"></div><div class="ld-b"><span></span></div></div>
+<div class="cur" id="cur"></div>
+<div class="grain"></div>
+
+<nav id="nav">
+  <a href="#" class="nl">RP</a>
+  <ul class="nc"><li><a href="#about">About</a></li><li><a href="#programs">Programma</a></li><li><a href="#stats">Record</a></li><li><a href="#booking">Boeken</a></li><li><a href="#contact">Contact</a></li></ul>
+  <span class="nr">Leiden, NL</span>
+  <div class="ham" id="ham"><span></span><span></span><span></span></div>
+</nav>
+<div class="mo" id="mo">
+  <a href="#about" style="transition-delay:.05s">About</a>
+  <a href="#programs" style="transition-delay:.1s">Programma</a>
+  <a href="#stats" style="transition-delay:.15s">Record</a>
+  <a href="#booking" style="transition-delay:.2s">Boeken</a>
+  <a href="#contact" style="transition-delay:.25s">Contact</a>
+</div>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-anim"><canvas id="heroCanvas"></canvas></div>
+  <div class="hero-grad"></div>
+  <div class="hero-orb hero-orb--1"></div>
+  <div class="hero-orb hero-orb--2"></div>
+  <div class="hero-orb hero-orb--3"></div>
+  <div class="hero-lines" id="heroLines"></div>
+  <div class="hero-pulse"></div>
+  <div class="hero-mob-vid">
+    <video autoplay muted loop playsinline preload="auto" poster="./poster.jpg"><source src="./hero.mp4" type="video/mp4"></video>
+  </div>
+  <div class="hero-line"></div>
+  <div class="hero-line"></div>
+  <div class="hero-c">
+    <div class="hero-tag" id="ht">Professional Kickboxer — Team Atlas</div>
+    <h1 class="hero-name" id="hn" data-text="RICK PEPER">RICK<br><em>PEPER</em></h1>
+    <div class="hero-bot" id="hb">
+      <div class="hero-meta">
+        <div class="hero-mi">Based in<strong>Leiden</strong></div>
+        <div class="hero-mi">Leeftijd<strong>23</strong></div>
+        <div class="hero-mi">Gym<strong>Team Atlas</strong></div>
+      </div>
+      <div class="hero-scr"><span></span>Scroll</div>
+    </div>
+  </div>
+</section>
+
+<div class="mq">
+  <div class="mq-t">
+    <span>Kickboxing</span><span class="dot">&bull;</span><span>Team Atlas Leiden</span><span class="dot">&bull;</span><span>Professional Fighter</span><span class="dot">&bull;</span><span>Personal Training</span><span class="dot">&bull;</span><span>Heresh XL</span><span class="dot">&bull;</span><span>No Excuses</span><span class="dot">&bull;</span>
+    <span>Kickboxing</span><span class="dot">&bull;</span><span>Team Atlas Leiden</span><span class="dot">&bull;</span><span>Professional Fighter</span><span class="dot">&bull;</span><span>Personal Training</span><span class="dot">&bull;</span><span>Heresh XL</span><span class="dot">&bull;</span><span>No Excuses</span><span class="dot">&bull;</span>
+  </div>
+</div>
+
+<!-- About -->
+<section class="sec about" id="about">
+  <div class="about-g">
+    <div>
+      <div class="rv"><p class="sl">Over Rick</p><h2 class="sh">Niet hier<br>om mee te doen.</h2></div>
+      <div class="about-txt rv d1">
+        <p>Ik ben Rick, 23, uit Leiden. Sinds m'n vijftiende sta ik in de ring. Eerst als die jongen die altijd ruzie zocht op school, nu als professioneel kickbokser bij Team Atlas onder Marden Smith.</p>
+        <p>Ik train zes dagen per week. Soms twee keer per dag. Niet omdat iemand me dat vraagt, maar omdat ik niet stil kan zitten. Vechten is het enige wat ik ken waar je niet kan faken. Je bent er klaar voor of je gaat neer.</p>
+      </div>
+    </div>
+    <div class="about-r">
+      <img class="about-img rv" src="./poster.jpg" alt="Rick Peper">
+      <div class="about-sr rv d1" style="margin-top:24px">
+        <div><div class="about-sn">23</div><div class="about-sl">Leeftijd</div></div>
+        <div><div class="about-sn" style="color:var(--red-lit)">6</div><div class="about-sl">Jaar actief</div></div>
+      </div>
+      <div class="about-q rv d2">&ldquo;De ring liegt niet. Daar telt alleen wat je erin stopt.&rdquo;</div>
+    </div>
+  </div>
+</section>
+
+<!-- Programs -->
+<section class="sec progs" id="programs">
+  <div class="rv"><p class="sl">Programma's</p><h2 class="sh">Train met mij.</h2></div>
+  <div class="progs-grid">
+    <a href="#booking" class="prog rv">
+      <div class="prog-bg" style="background-image:url(./poster.jpg)"></div>
+      <div class="prog-num">01</div>
+      <div class="prog-content">
+        <div class="prog-label">Programma 01</div>
+        <h3>1-op-1<br>Kickboksen</h3>
+        <div class="prog-desc">Pads, techniek, sparring. Op jouw niveau, op mijn tempo.</div>
+        <div class="prog-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+    <a href="#booking" class="prog rv d1">
+      <div class="prog-bg" style="background-image:url(./poster.jpg);background-position:center 30%"></div>
+      <div class="prog-num">02</div>
+      <div class="prog-content">
+        <div class="prog-label">Programma 02</div>
+        <h3>Wedstrijd<br>Voorbereiding</h3>
+        <div class="prog-desc">Voor wie de ring in wil. Tactiek, druk, mentale hardheid.</div>
+        <div class="prog-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+    <a href="#booking" class="prog rv d2">
+      <div class="prog-bg" style="background-image:url(./poster.jpg);background-position:right center"></div>
+      <div class="prog-num">03</div>
+      <div class="prog-content">
+        <div class="prog-label">Programma 03</div>
+        <h3>Conditie<br>&amp; Power</h3>
+        <div class="prog-desc">Explosiviteit, uithoudingsvermogen, kracht. Geen machines, wel resultaat.</div>
+        <div class="prog-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- Split -->
+<section class="split">
+  <div class="split-img">
+    <img src="./poster.jpg" alt="Rick Peper">
+  </div>
+  <div class="split-c">
+    <div class="rv"><p class="sl">Mentaliteit</p></div>
+    <div class="split-big rv d1">GEEN<br><span class="red">EXCUSES</span></div>
+    <p class="split-p rv d2">Je hoeft geen prof te worden om als een prof te trainen. Ik push je voorbij het punt waar je normaal stopt. Niet om je kapot te maken, maar om je te laten zien wat je echt kan.</p>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="sec stats" id="stats">
+  <div class="rv"><p class="sl">Fighter Record</p><h2 class="sh">De cijfers.</h2></div>
+  <div class="stats-row">
+    <div class="stats-c rv"><div class="stats-v"><span class="a">8</span></div><div class="stats-u">Wins</div></div>
+    <div class="stats-c rv d1"><div class="stats-v">2</div><div class="stats-u">Losses</div></div>
+    <div class="stats-c rv d2"><div class="stats-v"><span class="a">5</span></div><div class="stats-u">KO's</div></div>
+    <div class="stats-c rv d3"><div class="stats-v">72<span style="font-size:.5em;color:var(--muted-lt)">kg</span></div><div class="stats-u">Gewichtsklasse</div></div>
+  </div>
+  <div class="ev rv">
+    <div class="ev-badge">Laatste Gevecht</div>
+    <div><h3>Heresh XL — Cage Edition</h3><div class="ev-m"><span>14 Feb 2026</span><span>Sporthal Papendrecht</span><span>PPV — unifight.one</span></div></div>
+    <a href="https://www.unifight.one" target="_blank" rel="noopener" class="btn btn-g">Bekijk <span class="btn-ar">&rarr;</span></a>
+  </div>
+</section>
+
+<!-- Booking -->
+<section class="sec booking" id="booking">
+  <div class="rv"><p class="sl">Boeken</p><h2 class="sh">Prik een tijd.</h2></div>
+  <div class="book-card rv d1">
+    <div class="book-head">
+      <h3>Beschikbare Tijden</h3>
+      <span>Deze Week</span>
+    </div>
+    <div class="book-days">
+      <div class="book-day">
+        <div class="book-day-name">Dinsdag</div>
+        <div class="book-slots">
+          <div class="book-slot" onclick="this.classList.toggle('sel')">18:00</div>
+          <div class="book-slot" onclick="this.classList.toggle('sel')">19:30</div>
+        </div>
+      </div>
+      <div class="book-day">
+        <div class="book-day-name">Donderdag</div>
+        <div class="book-slots">
+          <div class="book-slot" onclick="this.classList.toggle('sel')">09:00</div>
+          <div class="book-slot" onclick="this.classList.toggle('sel')">20:00</div>
+        </div>
+      </div>
+      <div class="book-day">
+        <div class="book-day-name">Zaterdag</div>
+        <div class="book-slots">
+          <div class="book-slot" onclick="this.classList.toggle('sel')">10:00</div>
+          <div class="book-slot" onclick="this.classList.toggle('sel')">11:30</div>
+          <div class="book-slot" onclick="this.classList.toggle('sel')">13:00</div>
+        </div>
+      </div>
+    </div>
+    <div class="book-cta">
+      <a href="https://wa.me/31636486220?text=Hoi%20Rick%2C%20ik%20wil%20graag%20een%20sessie%20boeken!" target="_blank" rel="noopener" class="btn btn-f">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Boek via WhatsApp <span class="btn-ar">&rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Events -->
+<section class="sec" id="events" style="background:var(--bg)">
+  <div class="rv"><p class="sl">Gevechten</p><h2 class="sh">In de ring.</h2></div>
+  <div style="display:flex;flex-direction:column;gap:10px;margin-top:40px">
+    <div class="ev rv" style="margin:0"><div><h3>Heresh XL — Cage Edition</h3><div class="ev-m"><span>14 Februari 2026</span><span>Sporthal Papendrecht</span></div></div><a href="https://www.unifight.one" target="_blank" rel="noopener" class="btn btn-g">Info <span class="btn-ar">&rarr;</span></a></div>
+    <div class="ev rv d1" style="margin:0;opacity:.4;pointer-events:none"><div><h3>Volgende gevecht</h3><div class="ev-m"><span>TBA</span><span>Wordt aangekondigd</span></div></div><span class="btn btn-g" style="opacity:.4">Coming soon</span></div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="sec contact" id="contact">
+  <div class="contact-center">
+    <div class="rv"><p class="sl" style="justify-content:center">Contact</p>
+    <h3>Neem contact op.</h3>
+    <p>Wil je trainen, samenwerken, of gewoon even sparren over kickboksen? Stuur me een bericht via WhatsApp of plan een sessie via Instagram.</p></div>
+    <div class="contact-ctas rv d1">
+      <a href="https://wa.me/31636486220?text=Hoi%20Rick!" target="_blank" rel="noopener" class="contact-cta contact-cta--wa">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Stuur WhatsApp
+      </a>
+      <a href="https://www.instagram.com/rickpeper" target="_blank" rel="noopener" class="contact-cta contact-cta--ig">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        Plan via Instagram
+      </a>
+    </div>
+    <div class="contact-info rv d2">
+      <a href="https://wa.me/31636486220" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +31 6 36486220
+      </a>
+      <a href="https://www.instagram.com/rickpeper" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        @rickpeper
+      </a>
+      <a href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Team Atlas — Morsweg 55C, Leiden
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fs">
+    <a href="https://wa.me/31636486220" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+    <a href="https://www.instagram.com/rickpeper" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+  </div>
+  <span class="fl">Rick Peper — Team Atlas Leiden</span>
+</footer>
+
+<div class="mcta"><a href="https://wa.me/31636486220?text=Hoi%20Rick%2C%20ik%20wil%20graag%20een%20sessie%20boeken!" target="_blank" rel="noopener" class="btn btn-f">Boek via WhatsApp <span class="btn-ar">&rarr;</span></a></div>
+
+<script>
+(function(){
+  var ld=document.getElementById('ld'),ldt=document.getElementById('ldt');
+  'RICK PEPER'.split('').forEach(function(c,i){var s=document.createElement('span');s.textContent=c===' '?'\u00A0':c;s.style.animationDelay=(i*.04)+'s';ldt.appendChild(s)});
+  setTimeout(function(){ld.classList.add('done')},1600);
+
+  var cur=document.getElementById('cur');
+  document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+  document.querySelectorAll('a,button,.btn,.prog,.stats-c,.ev,.book-slot').forEach(function(el){
+    el.addEventListener('mouseenter',function(){cur.classList.add('h')});
+    el.addEventListener('mouseleave',function(){cur.classList.remove('h')});
+  });
+
+  var nav=document.getElementById('nav');
+  window.addEventListener('scroll',function(){nav.classList.toggle('s',window.scrollY>50)},{passive:true});
+
+  var ham=document.getElementById('ham'),mo=document.getElementById('mo');
+  ham.addEventListener('click',function(){ham.classList.toggle('o');mo.classList.toggle('o');document.body.style.overflow=mo.classList.contains('o')?'hidden':''});
+  mo.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){ham.classList.remove('o');mo.classList.remove('o');document.body.style.overflow=''})});
+
+  var hn=document.getElementById('hn');
+  var ht=document.getElementById('ht'),hb=document.getElementById('hb');
+  setTimeout(function(){ht.style.transition='opacity .5s var(--eo),transform .5s var(--eo)';ht.style.opacity='1';ht.style.transform='translateY(0)'},1700);
+  setTimeout(function(){hn.style.transition='opacity .7s var(--eo),transform .7s var(--eo)';hn.style.opacity='1';hn.style.transform='translateY(0)';setTimeout(function(){hn.classList.add('gl')},1200)},1900);
+  setTimeout(function(){hb.style.transition='opacity .6s var(--eo),transform .6s var(--eo)';hb.style.opacity='1';hb.style.transform='translateY(0)'},2400);
+
+  var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}})},{rootMargin:'0px 0px -30px 0px',threshold:.08});
+  document.querySelectorAll('.rv').forEach(function(el){obs.observe(el)});
+
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var t=document.querySelector(this.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})});
+
+  // Particle lines (desktop)
+  var linesEl=document.getElementById('heroLines');
+  if(window.innerWidth>768&&linesEl){
+    for(var i=0;i<8;i++){
+      var ln=document.createElement('span');
+      ln.style.cssText='left:'+(10+Math.random()*80)+'%;height:'+(80+Math.random()*200)+'px;animation-duration:'+(6+Math.random()*8)+'s;animation-delay:'+(Math.random()*6)+'s;';
+      linesEl.appendChild(ln);
+    }
+  }
+
+  // Canvas mesh (desktop)
+  var canvas=document.getElementById('heroCanvas');
+  if(canvas&&window.innerWidth>768){
+    var ctx=canvas.getContext('2d');
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    var w,h;
+    function resize(){
+      w=canvas.parentElement.clientWidth;
+      h=canvas.parentElement.clientHeight;
+      canvas.width=w*dpr;canvas.height=h*dpr;
+      ctx.scale(dpr,dpr);
+    }
+    resize();
+    window.addEventListener('resize',function(){ctx.setTransform(1,0,0,1,0,0);resize()});
+    var pts=[];
+    for(var j=0;j<40;j++){
+      pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:1+Math.random()*1.5});
+    }
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      for(var a=0;a<pts.length;a++){
+        var pa=pts[a];
+        pa.x+=pa.vx;pa.y+=pa.vy;
+        if(pa.x<0||pa.x>w)pa.vx*=-1;
+        if(pa.y<0||pa.y>h)pa.vy*=-1;
+        ctx.beginPath();ctx.arc(pa.x,pa.y,pa.r,0,Math.PI*2);
+        ctx.fillStyle='rgba(198,40,40,.2)';ctx.fill();
+        for(var b=a+1;b<pts.length;b++){
+          var pb=pts[b];var dx=pa.x-pb.x,dy=pa.y-pb.y;var dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<180){
+            ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);
+            ctx.strokeStyle='rgba(198,40,40,'+((.06*(1-dist/180)))+')';
+            ctx.lineWidth=.5;ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+})();
+</script>
+</body>
+</html>
